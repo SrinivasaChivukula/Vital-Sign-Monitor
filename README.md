@@ -1,134 +1,61 @@
-# Vision Assist IoT System
+# Vital-Sign-Monitor 🏥 👁️
 
-Vision assistance for visually impaired patients that require assisted living, with fall detection and emergency alerts.
+Hey! **Vital-Sign-Monitor** is a real-time computer vision system designed to enhance patient safety through automated monitoring. It uses Deep Learning to track vital indicators and provides a centralized dashboard for real-time alerts.
 
-## Hardware
+## 🧐 What's the impact?
+In high-stress medical environments, human observation can't be everywhere at once. This system acts as an "always-on" assistant that uses **YOLOv8** (You Only Look Once) to monitor patient presence and state, logging data directly to a persistent database and triggering audio-visual alerts if something seems off.
 
-- Raspberry Pi with Sense HAT and Pi Camera
-- Laptop/PC for inference
+---
 
-## Features
+## 🛠 Engineering Stack
+- **Computer Vision (YOLOv8):** Integrated state-of-the-art object detection to monitor patient state in real-time.
+- **Backend (Flask & Python):** Built a RESTful API to bridge the gap between the vision engine and the user interface.
+- **Data Persistence (SQLite):** Logged all "events" into a `vision_data.db` for historical analysis and reporting.
+- **Real-Time Alerts:** Implemented an asynchronous alerting system using `alert.wav` to ensure zero-latency notification for staff.
+- **Frontend Dashboard:** A clean UI that displays live detection logs and system health.
 
-- Real-time object detection with audio alerts
-- Fall detection (accelerometer/gyroscope)
-- Emergency SOS button (joystick middle)
-- Assistance requests: General Help, Bathroom, Food/Water, Medication
-- Voice alerts for all emergencies and requests
-- Environmental monitoring (temp, humidity, pressure)
-- Live dashboard with video feed
-- Voice commands and scene summarization
+---
 
-## Setup
+## 📊 Performance
+The system is optimized to run on edge devices, maintaining high FPS while processing frame-by-frame detection.
 
-### Raspberry Pi
+---
 
-```bash
-# Install dependencies
-sudo apt-get update
-sudo apt-get install -y python3-picamera2 python3-sense-hat
+## 🚀 How to Run
+1. **Clone the Repo:**
+   ```bash
+   git clone https://github.com/SrinivasaChivukula/Vital-Sign-Monitor.git
+   cd Vital-Sign-Monitor
+   ```
+2. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Ignition:**
+   ```bash
+   python src/run.py
+   ```
 
-# Run the Pi script
-python3 abcd.py
-```
+---
 
-### Laptop/PC
+## 📂 Project Structure
+- `src/`: Core logic including the vision engine (`monitor_server.py`) and the API (`backend_api.py`).
+- `assets/`: Contains the pre-trained **YOLOv8n** model and notification assets.
+- `frontend/`: The dashboard source code.
+- `vision_data.db`: The persistent event log.
 
-```bash
-# Create virtual environment
-python3 -m venv .venv
-source .venv/bin/activate
+---
 
-# Install dependencies
-sudo apt-get install portaudio19-dev python3-dev
-pip install -r requirements.txt
+## 🧠 Strategic Takeaways
+- **AI at the Edge:** Learned how to deploy deep learning models in real-time environments without sacrificing speed.
+- **Full-Stack AI:** Built every layer from the raw pixel input to the final UI dashboard.
+- **Safety-Critical Design:** Focused on building a reliable alerting mechanism for high-stakes environments.
 
-# Update Pi IP in run.py and backend_api.py
-# Change http://100.101.51.31:5000 to your Pi's IP
+---
 
-# Run the vision assistant
-python run.py
-```
+## 👨‍💻 Author
+**Srinivasa Chivukula**  
+*Computer Science Major | AIML, CyberSecurity, and Cloud Technologies*
 
-## Configuration
-
-Edit these files to match your Pi's IP address:
-
-1. `run.py` - Line 45 and lines 370, 414
-2. `backend_api.py` - Line 28
-
-Replace `100.101.51.31` with your Pi's IP address.
-
-## Usage
-
-### Joystick Controls
-
-- **Middle**: Emergency SOS
-- **Up**: General Help
-- **Down**: Bathroom
-- **Left**: Food/Water  
-- **Right**: Medication
-
-### Voice Commands
-
-Say naturally:
-- "Describe scene"
-- "What's ahead"
-
-### Dashboard
-
-Open browser: `http://localhost:5001`
-
-View:
-- Live video feed with object detection
-- Recent alerts and statistics
-- Environmental conditions
-- Fall detection status
-- Emergency and assistance requests
-
-## Object Detection
-
-Edit `relevant_classes.txt` to customize which objects trigger alerts.
-
-## Architecture
-
-```
-Pi (abcd.py)
-  ├─ Camera → MJPEG stream
-  ├─ Sense HAT → Fall detection, emergency button, environment
-  └─ Flask API → Status endpoints
-
-Laptop (run.py)
-  ├─ Fetch Pi stream → YOLOv8 inference
-  ├─ TTS voice alerts
-  ├─ Voice command recognition
-  └─ Backend API (backend_api.py)
-      └─ Dashboard (frontend/)
-```
-
-## API Endpoints
-
-### Pi (port 5000)
-- `/video_feed` - MJPEG stream
-- `/api/fall_status` - Fall detection status
-- `/api/emergency_status` - Emergency button status
-- `/api/assistance_status` - Assistance request status
-- `/api/environmental` - Temperature, humidity, pressure
-
-### Backend (port 5001)
-- `/api/video_feed` - Annotated video feed
-- `/api/stats` - Detection statistics
-- `/api/alerts` - Recent alerts
-- All Pi endpoints proxied
-
-## Database
-
-SQLite database `vision_assist.db` stores:
-- Sessions
-- Object detections
-- Alerts (falls, emergencies, assistance requests)
-- Voice commands
-- Scene summaries
-
-## License
-
-MIT
+---
+"AI for a safer, healthier world." 🚀
